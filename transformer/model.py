@@ -14,7 +14,7 @@ class InputEmbedding(nn.Module):
         return self.embedding(x) * math.sqrt(self.d_model)
 
 
-class PositionalEconding(nn.Module):
+class PositionalEncoding(nn.Module):
     def __init__(self, d_model, seq_len: int, dropout: float):
         super().__init__()
         self.d_model = d_model
@@ -226,8 +226,8 @@ class Transformer(nn.Module):
         decoder: Decoder,
         src_embed: InputEmbedding,
         tgt_embed: InputEmbedding,
-        src_pos: PositionalEconding,
-        tgt_pos: PositionalEconding,
+        src_pos: PositionalEncoding,
+        tgt_pos: PositionalEncoding,
         projection_layer: ProjectionLayer,
     ) -> None:
         super().__init__()
@@ -269,8 +269,8 @@ def build_transformer(
     src_embed = InputEmbedding(d_model, src_vocab_size)
     tgt_embed = InputEmbedding(d_model, tgt_vocab_size)
     # Positionnal encoding layers
-    src_pos = PositionalEconding(d_model, src_seq_len, dropout)
-    tgt_pos = PositionalEconding(d_model, src_seq_len, dropout)
+    src_pos = PositionalEncoding(d_model, src_seq_len, dropout)
+    tgt_pos = PositionalEncoding(d_model, src_seq_len, dropout)
     # Encoder
     encoder = Encoder(
         nn.ModuleList(
